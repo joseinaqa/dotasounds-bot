@@ -1,4 +1,4 @@
-import logging
+import os
 from uuid import uuid4
 from app.models import Audio
 
@@ -25,7 +25,7 @@ def start_bot() -> None:
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater("TOKEN", use_context=True)
+    updater = Updater(os.environ['BOT_TOKEN'], use_context=True)
 
     updater.dispatcher.add_handler(InlineQueryHandler(inlinequery))
 
