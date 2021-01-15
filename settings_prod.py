@@ -3,6 +3,7 @@ import os
 
 INSTALLED_APPS = [
     'app',
+    'django.contrib.postgres',
 ]
 
 DATABASES = {
