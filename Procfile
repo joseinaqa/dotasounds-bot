@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: python main.py
+worker: python main.py
