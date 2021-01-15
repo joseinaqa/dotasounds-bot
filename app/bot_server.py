@@ -25,7 +25,16 @@ def start_bot() -> None:
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater(os.environ['BOT_TOKEN'], use_context=True)
+    TOKEN = os.environ['BOT_TOKEN']
+
+    PORT = int(os.environ.get('PORT', '8443'))
+
+    updater = Updater(TOKEN, use_context=True)
+
+    updater.start_webhook(listen="0.0.0.0",
+                          port=PORT,
+                          url_path=TOKEN)
+    updater.bot.set_webhook("https://dotasound.herokuapp.com/" + TOKEN)
 
     updater.dispatcher.add_handler(InlineQueryHandler(inlinequery))
 
