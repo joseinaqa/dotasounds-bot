@@ -15,7 +15,7 @@ def make_entry(li):
     src = source_el['src']
     title = ''.join(filter(lambda x: not x.name, li.contents)).strip()
 
-    return Audio(src=src, title=title)
+    return Audio(src=src, title=title[0:256])
 
 def collect_sounds(url):
     logging.info(f'Scraping {url}...')
