@@ -1,6 +1,6 @@
 import os
 from uuid import uuid4
-from app.models import Audio
+from app import data
 
 from telegram import InlineQueryResultVoice, Update
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler, CallbackContext
@@ -12,10 +12,10 @@ def inlinequery(update: Update, context: CallbackContext) -> None:
     results = [
         InlineQueryResultVoice(
             id=uuid4(),
-            title=audio.title,
-            voice_url=audio.src,
+            title=audio['title'],
+            voice_url=audio['src'],
         )
-        for audio in Audio.objects.filter(title__search=query)
+        for audio in data.search_entries(title__search=query)
     ]
 
     update.inline_query.answer(results)

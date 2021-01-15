@@ -1,8 +1,7 @@
-from app.models import Audio
+from app import data
 import logging
 from bs4 import BeautifulSoup
 import requests
-
 
 domain = 'https://dota2.gamepedia.com'
 
@@ -15,7 +14,10 @@ def make_entry(li):
     src = source_el['src']
     title = ''.join(filter(lambda x: not x.name, li.contents)).strip()
 
-    return Audio(src=src, title=title[0:256])
+    return {
+        'src': src,
+        'title': title[0:256]
+    }
 
 def collect_sounds(url):
     logging.info(f'Scraping {url}...')
@@ -29,15 +31,12 @@ def collect_sounds(url):
 
     entries = map(make_entry, page_content.findAll('li'))
 
-    Audio.objects.bulk_create(filter(bool, entries))
+    data.add_entries(filter(bool, entries))
 
     logging.info(f'Scraping {url} done!')
 
 
 def scrape():
-    logging.info('Clearing...')
-    Audio.objects.all().delete()
-
     logging.info('Scraping...')
 
     website_request = requests.get(f'{domain}/Category:Responses', timeout=5)
