@@ -1,3 +1,4 @@
+from app.bot_server import start_bot
 import logging
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
@@ -10,3 +11,4 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 schedule_scraping()
+start_bot()
