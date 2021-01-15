@@ -9,14 +9,14 @@ from telegram.ext import Updater, InlineQueryHandler, CommandHandler, CallbackCo
 def inlinequery(update: Update, context: CallbackContext) -> None:
     """Handle the inline query."""
     query = update.inline_query.query
-    results = map(
-        lambda audio: InlineQueryResultVoice(
+    results = [
+        InlineQueryResultVoice(
             id=uuid4(),
             title=audio.title,
             voice_url=audio.src,
-        ),
-        Audio.objects.filter(title__search=query)
-    )
+        )
+        for audio in Audio.objects.filter(title__search=query)
+    ]
 
     update.inline_query.answer(results)
 
