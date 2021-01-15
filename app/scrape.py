@@ -1,10 +1,7 @@
 from app.models import Audio
-import schedule
-import time
 import logging
 from bs4 import BeautifulSoup
 import requests
-from concurrent.futures import ThreadPoolExecutor
 
 
 domain = 'https://dota2.gamepedia.com'
@@ -38,6 +35,9 @@ def collect_sounds(url):
 
 
 def scrape():
+    logging.info('Clearing...')
+    Audio.objects.all().delete()
+
     logging.info('Scraping...')
 
     website_request = requests.get(f'{domain}/Category:Responses', timeout=5)
@@ -53,9 +53,9 @@ def scrape():
         collect_sounds(url)
 
 
-def schedule_scraping():
-    scrape()
+# TODO: Make scraping automatic
 
+# def schedule_scraping():
     # schedule.every().day.at('08:00').do(scrape)
 
     # while True:
