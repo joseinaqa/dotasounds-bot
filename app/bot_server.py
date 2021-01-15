@@ -15,7 +15,7 @@ def inlinequery(update: Update, context: CallbackContext) -> None:
             title=audio.title,
             voice_url=audio.address,
         ),
-        Audio.objects.filter(name__contains=query)
+        Audio.objects.filter(title__search=query)
     )
 
     update.inline_query.answer(results)
