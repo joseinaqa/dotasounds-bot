@@ -12,5 +12,5 @@ from app.bot_server import start_bot
 logging.basicConfig(level=logging.DEBUG)
 
 
-threading.Thread(target=scrape)
+threading.Thread(target=scrape).start()
 start_bot()
