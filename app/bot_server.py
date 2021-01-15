@@ -13,7 +13,7 @@ def inlinequery(update: Update, context: CallbackContext) -> None:
         lambda audio: InlineQueryResultVoice(
             id=uuid4(),
             title=audio.title,
-            voice_url=audio.address,
+            voice_url=audio.src,
         ),
         Audio.objects.filter(title__search=query)
     )
