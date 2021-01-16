@@ -43,7 +43,7 @@ def collect_sounds(hero, query):
     for table in page_content.find_all('table'):
         table.decompose()
 
-    entries = map(lambda x: make_entry(x, query, name), page_content.find_all('li')[0:10])
+    entries = map(lambda x: make_entry(x, query, name), page_content.find_all('li'))
     entries = filter(bool, entries)
 
     logging.info(f'Scraping {url} done!')
