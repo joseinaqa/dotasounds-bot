@@ -25,6 +25,11 @@ def inlinequery(update: Update, context: CallbackContext) -> None:
     update.inline_query.answer(results)
 
 
+def start(update: Update, context: CallbackContext) -> None:
+    """Send a message when the command /start is issued."""
+    update.message.reply_photo(quote=True, photo='https://i.kym-cdn.com/photos/images/original/001/565/728/103.gif')
+
+
 def start_bot() -> None:
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
@@ -41,6 +46,8 @@ def start_bot() -> None:
     updater.bot.set_webhook("https://dotasound.herokuapp.com/" + TOKEN)
 
     updater.dispatcher.add_handler(InlineQueryHandler(inlinequery))
+
+    updater.dispatcher.add_handler(CommandHandler('start', start))
 
     # Start the Bot
     updater.start_polling()
