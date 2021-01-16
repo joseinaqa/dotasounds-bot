@@ -80,4 +80,9 @@ def scrape(query):
         lambda hero: collect_sounds(hero, response_query),
         filtered_heroes,
     )
-    return [single_result for results_list in results for single_result in results_list]
+
+    return [
+        single_result
+        for results_list in results
+        for single_result in results_list
+    ][0:50]
