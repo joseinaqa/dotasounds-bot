@@ -27,7 +27,7 @@ def inlinequery(update: Update, context: CallbackContext) -> None:
 
 def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
-    update.message.reply_photo(quote=True, photo='https://i.kym-cdn.com/photos/images/original/001/565/728/103.gif')
+    update.message.reply_animation(quote=True, animation='https://i.kym-cdn.com/photos/images/original/001/565/728/103.gif')
 
 
 def start_bot() -> None:
