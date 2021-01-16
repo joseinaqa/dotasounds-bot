@@ -14,6 +14,7 @@ def inlinequery(update: Update, context: CallbackContext) -> None:
     results = [
         InlineQueryResultVoice(
             id=uuid4(),
+            type='voice',
             title=audio['title'],
             caption=audio['title'],
             voice_url=audio['src'],
