@@ -48,7 +48,7 @@ def collect_sounds(hero, query):
 
     logging.info(f'Scraping {url} done!')
 
-    return list(entries)[0:5]
+    return list(entries)
 
 
 website_request = requests.get(f'{domain}/Category:Responses', timeout=5)
@@ -70,7 +70,7 @@ def scrape(query):
     filtered_heroes = list(filter(
         lambda hero: is_hero_searched(hero_query, hero['name']),
         heroes,
-    ))[0:10]
+    ))
 
     if len(filtered_heroes) == 0:
         return []
