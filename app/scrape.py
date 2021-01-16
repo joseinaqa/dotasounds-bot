@@ -72,6 +72,9 @@ def scrape(query):
         heroes,
     ))[0:10]
 
+    if len(filtered_heroes) == 0:
+        return []
+
     executor = ThreadPoolExecutor(len(filtered_heroes))
     results = executor.map(
         lambda hero: collect_sounds(hero, response_query),
