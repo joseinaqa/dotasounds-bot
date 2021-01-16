@@ -21,7 +21,7 @@ def make_entry(li, query, name):
     source_el = li.find('source')
     title = ''.join(filter(lambda x: not x.name, li.contents)).strip()
 
-    if not source_el or not is_subseq(query, title):
+    if not source_el or not is_subseq(query, title.lower()):
         return None
 
     src = source_el['src']
