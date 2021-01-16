@@ -62,10 +62,11 @@ heroes = list(map(
         .find(class_='mw-category')
         .find_all('a')
 ))
-print(heroes)
+
 
 def scrape(query):
-    hero_query, response_query = query.split('/')
+    hero_query, *response_query = query.split('/')
+    response_query = ''.join(response_query)
     filtered_heroes = list(filter(
         lambda hero: is_hero_searched(hero_query, hero['name']),
         heroes,
