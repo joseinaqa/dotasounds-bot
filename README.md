@@ -1,1 +1,1 @@
-# dotasounds-bot
+# Dota Sounds Bot
