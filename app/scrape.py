@@ -15,7 +15,7 @@ def is_hero_searched(query, raw_name):
     return name[0:2] == query[0:2] and is_subseq(query, name)
 
 
-domain = 'https://dota2.gamepedia.com'
+domain = 'https://dota2.fandom.com'
 
 def make_entry(li, query, name):
     source_el = li.find('source')
@@ -51,34 +51,48 @@ def collect_sounds(hero, query):
     return list(entries)
 
 
-website_request = requests.get(f'{domain}/Category:Responses', timeout=5)
-website_content = BeautifulSoup(website_request.content, 'html.parser')
-heroes = list(map(
-    lambda a: {
-        'url': a['href'],
-        'name': ''.join(a.contents).split('/')[0].strip(),
-    },
-    website_content
-        .find(class_='mw-category')
-        .find_all('a')
-))
+options = None
+
+def fill_options():
+    website_request = requests.head(f'{domain}/wiki/Category:Responses', timeout=5, allow_redirects=True)
+    website_request = requests.get(website_request.url, timeout=5)
+    website_content = BeautifulSoup(website_request.content, 'html.parser')
+    options = []
+    options.append({
+        'url': f'{domain}/wiki/Chat_Wheel',
+        'name': 'Chat Wheel',
+    })
+    heroes = list(map(
+        lambda a: {
+            'url': a['href'],
+            'name': ''.join(a.contents).split('/')[0].strip(),
+        },
+        website_content
+            .find(class_='mw-category')
+            .find_all('a')
+    ))
+    heroes.sort(key=lambda hero: len(hero['name']))
+    options.extend(heroes)
 
 
 def scrape(query):
+    if options is None:
+        fill_options()
+
     hero_query, *response_query = query.split('/')
     response_query = ''.join(response_query)
-    filtered_heroes = list(filter(
+    filtered_options = list(filter(
         lambda hero: is_hero_searched(hero_query, hero['name']),
-        heroes,
+        options,
     ))
 
-    if len(filtered_heroes) == 0:
+    if len(filtered_options) == 0:
         return []
 
-    executor = ThreadPoolExecutor(len(filtered_heroes))
+    executor = ThreadPoolExecutor(len(filtered_options))
     results = executor.map(
         lambda hero: collect_sounds(hero, response_query),
-        filtered_heroes,
+        filtered_options,
     )
 
     return [
